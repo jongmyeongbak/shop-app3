@@ -26,4 +26,8 @@ public class CustomerDao {
 			return customer;
 		});
 	}
+	
+	public void updateCustomerDisabled(String disabled, String id) {
+		DaoHelper.update("customerDao.updateCustomerDisabled", disabled, id);
+	}
 }
