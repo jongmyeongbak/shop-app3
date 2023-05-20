@@ -16,10 +16,9 @@ public class Customer {
 	
 	public Customer() {
 	}
-	public Customer(String id, String password, String name, String tel, String email) {
+	public Customer(String id, String name, String tel, String email) {
 		super();
 		this.id = id;
-		this.password = password;
 		this.name = name;
 		this.tel = tel;
 		this.email = email;

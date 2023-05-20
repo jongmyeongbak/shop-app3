@@ -8,7 +8,8 @@
 	String name = request.getParameter("name");
 	String tel = request.getParameter("tel");
 	String email = request.getParameter("email");
-	Customer customer = new Customer(id, password, name, tel, email);
+	Customer customer = new Customer(id, name, tel, email);
+	customer.setPassword(password);
 	
 	new CustomerDao().insertCustomer(customer);
 	
