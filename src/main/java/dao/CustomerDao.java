@@ -43,4 +43,8 @@ public class CustomerDao {
 	public void updateCustomerDisabled(String disabled, String id) {
 		DaoHelper.update("customerDao.updateCustomerDisabled", disabled, id);
 	}
+	
+	public void deleteCustomerById(String id) {
+		DaoHelper.update("customerDao.deleteCustomerById", id);
+	}
 }
