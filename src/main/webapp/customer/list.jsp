@@ -1,3 +1,6 @@
+<%@page import="dao.CustomerDao"%>
+<%@page import="vo.Customer"%>
+<%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <!doctype html>
 <html lang="ko">
@@ -57,38 +60,21 @@
 					</tr>
 				</thead>
 				<tbody>
+				<%
+				List<Customer> customerList = new CustomerDao().getCustomers();
+				for (Customer customer : customerList) {
+				%>
 					<tr>
-						<td>hong</td>
-						<td><a href="detail.jsp?id=hong">홍길동</a></td>
-						<td>010-1111-1111</td>
-						<td>hong@gmail.com</td>
-						<td>No</td>
+						<td><%=customer.getId() %></td>
+						<td><a href="detail.jsp?id=hong"><%=customer.getName() %></a></td>
+						<td><%=customer.getTel() %></td>
+						<td><%=customer.getEmail() %></td>
+						<td><%=customer.getDisabled() %></td>
 						<td><a href="disable.jsp?id=hong" class="btn btn-danger btn-xs">탈퇴처리</a></td>
 					</tr>
-					<tr>
-						<td>hong</td>
-						<td><a href="detail.jsp?id=hong">홍길동</a></td>
-						<td>010-1111-1111</td>
-						<td>hong@gmail.com</td>
-						<td>No</td>
-						<td><a href="disable.jsp?id=hong" class="btn btn-danger btn-xs">탈퇴처리</a></td>
-					</tr>
-					<tr>
-						<td>hong</td>
-						<td><a href="detail.jsp?id=hong">홍길동</a></td>
-						<td>010-1111-1111</td>
-						<td>hong@gmail.com</td>
-						<td>Yes</td>
-						<td><a href="enable.jsp?id=hong" class="btn btn-success btn-xs disabled">복구처리</a></td>
-					</tr>
-					<tr>
-						<td>hong</td>
-						<td><a href="detail.jsp?id=hong">홍길동</a></td>
-						<td>010-1111-1111</td>
-						<td>hong@gmail.com</td>
-						<td>No</td>
-						<td><a href="disable.jsp?id=hong" class="btn btn-danger btn-xs">탈퇴처리</a></td>
-					</tr>
+				<%
+				}
+				%>
 				</tbody>
 			</table>
 		</div>
