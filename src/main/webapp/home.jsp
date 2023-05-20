@@ -42,7 +42,7 @@
 			* customer/form.jsp - 회원가입 폼입니다.
 			* customer/insert.jsp - 회원가입 폼에서 입력한 고객정보를 전달받아서 고객정보를 저장시킵니다.
 			* customer/registered.jsp - 회원가입 완료 메세지를 출력합니다. 
-	                                                               - insert.jsp에서 고객정보 저장 후 registered.jsp를 재요청 URL로 지정하세요.
+	                                 - insert.jsp에서 고객정보 저장 후 registered.jsp를 재요청 URL로 지정합니다.
 	
 		회원목록 정보 조회 기능
 			customer/list.jsp
@@ -58,7 +58,7 @@
 			* customer/enable.jsp - 고객정보의 CUST_DIABLED 값을 'No'로 변경해서 복구처리 시킵니다. 
 						         - 탈퇴처리 후 list.jsp를 재요청하는 URL을 응답으로 보낸다.
 	
-		회원 상제정보 조회 기능
+		회원 상세정보 조회 기능
 			customer/detail.jsp
 			* customer/detail.jsp - 고객의 상세정보를 출력합니다.
 			* list.jsp에서 고객 이름을 클릭하면 detail.jsp를 요청합니다.
