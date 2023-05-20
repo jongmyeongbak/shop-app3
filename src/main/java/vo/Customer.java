@@ -23,6 +23,18 @@ public class Customer {
 		this.tel = tel;
 		this.email = email;
 	}
+	public Customer(String id, String name, String tel, String email, String disabled, int point, Date updateDate,
+			Date createDate) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.tel = tel;
+		this.email = email;
+		this.disabled = disabled;
+		this.point = point;
+		this.updateDate = updateDate;
+		this.createDate = createDate;
+	}
 	
 	public String getId() {
 		return id;
