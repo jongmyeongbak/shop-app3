@@ -1,4 +1,11 @@
+<%@page import="dao.CustomerDao"%>
+<%@page import="vo.Customer"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
+<%
+	String id = request.getParameter("id");
+	
+	Customer cust = new CustomerDao().getCustomerById(id);
+%>
 <!doctype html>
 <html lang="ko">
 <head>
@@ -39,41 +46,41 @@
 			
 			<table class="table table-bordered">
 				<colgroup>
+					<col width="12%">
+					<col width="39%">
 					<col width="10%">
-					<col width="40%">
-					<col width="10%">
-					<col width="40%">
+					<col width="39%">
 				</colgroup>
 				<tbody>
 					<tr>
 						<th class="table-dark">아이디</th>
-						<td>hong</td>
+						<td><%=cust.getId() %></td>
 						<th class="table-dark">이름</th>
-						<td>홍길동</td>
+						<td><%=cust.getName() %></td>
 					</tr>
 					<tr>
 						<th class="table-dark">전화번호</th>
-						<td>010-1111-1111</td>
+						<td><%=cust.getTel() %></td>
 						<th class="table-dark">이메일</th>
-						<td>hong@gmail.com</td>
+						<td><%=cust.getEmail() %></td>
 					</tr>
 					<tr>
 						<th class="table-dark">적립포인트</th>
-						<td>200,000</td>
+						<td><%=cust.getPoint() %></td>
 						<th class="table-dark">탈퇴여부</th>
-						<td>No</td>
+						<td><%=cust.getDisabled() %></td>
 					</tr>
 					<tr>
 						<th class="table-dark">가입일자</th>
-						<td>2023-05-19</td>
+						<td><%=cust.getCreateDate() %></td>
 						<th class="table-dark">수정일자</th>
-						<td>2023-05-19</td>
+						<td><%=cust.getUpdateDate() %></td>
 					</tr>
 				</tbody>
 			</table>
 			<div class="text-end">
-				<a href="delete.jsp?id=hong" class="btn btn-danger btn-sm">삭제</a>
-				<a href="modifyform.jsp?id=hong" class="btn btn-warning btn-sm">수정</a>
+				<a href="delete.jsp?id=<%=id %>" class="btn btn-danger btn-sm">삭제</a>
+				<a href="modifyform.jsp?id=<%=id %>" class="btn btn-warning btn-sm">수정</a>
 				<a href="list.jsp" class="btn btn-primary btn-sm">목록</a>
 			</div>
 		</div>
