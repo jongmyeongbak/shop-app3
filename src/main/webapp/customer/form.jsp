@@ -37,15 +37,15 @@
 			<form class="border bg-light p-3" method="post" action="insert.jsp">
 				<div class="form-group mb-2">
 					<label class="form-label">아이디</label>
-					<input type="text" class="form-control" name="id"/>
+					<input type="text" class="form-control" name="id" required />
 				</div>
 				<div class="form-group mb-2">
 					<label class="form-label">비밀번호</label>
-					<input type="password" class="form-control" name="password"/>
+					<input type="password" class="form-control" name="password" required />
 				</div>
 				<div class="form-group mb-2">
 					<label class="form-label">이름</label>
-					<input type="text" class="form-control" name="name"/>
+					<input type="text" class="form-control" name="name" required />
 				</div>
 				<div class="form-group mb-2">
 					<label class="form-label">전화번호</label>
