@@ -63,14 +63,27 @@
 				<%
 				List<Customer> customerList = new CustomerDao().getCustomers();
 				for (Customer customer : customerList) {
+					String id = customer.getId();
+					String disabled = customer.getDisabled();
 				%>
 					<tr>
-						<td><%=customer.getId() %></td>
-						<td><a href="detail.jsp?id=hong"><%=customer.getName() %></a></td>
+						<td><%=id %></td>
+						<td><a href="detail.jsp?id=<%=id %>"><%=customer.getName() %></a></td>
 						<td><%=customer.getTel() %></td>
 						<td><%=customer.getEmail() %></td>
-						<td><%=customer.getDisabled() %></td>
-						<td><a href="disable.jsp?id=hong" class="btn btn-danger btn-xs">탈퇴처리</a></td>
+						<td><%=disabled %></td>
+						<%-- <td><a href='<%="No".equals(disabled) ? "disable.jsp?id=hong' class='btn btn-danger btn-xs'>탈퇴" : "" %>처리</a></td> --%>
+						<%
+						if ("No".equals(disabled)) {
+						%>
+						<td><a href="disable.jsp?id=<%=id %>" class="btn btn-danger btn-xs">탈퇴처리</a></td>
+						<%
+						} else {
+						%>
+						<td><a href="enable.jsp?id=<%=id %>" class="btn btn-success btn-xs">복구처리</a></td>
+						<%
+						}
+						%>
 					</tr>
 				<%
 				}
