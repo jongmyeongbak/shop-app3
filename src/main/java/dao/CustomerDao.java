@@ -59,8 +59,7 @@ public class CustomerDao {
 //	}
 	
 	public void updateCustomer(Customer customer) {
-		DaoHelper.update("customerDao.updateCustomer", customer.getPassword(),
-													customer.getTel(),
+		DaoHelper.update("customerDao.updateCustomer", customer.getTel(),
 													customer.getEmail(),
 													customer.getDisabled(),
 													customer.getPoint(),
