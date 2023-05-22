@@ -1,7 +1,4 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
-<%
-	String err = request.getParameter("err");
-%>
 <!doctype html>
 <html lang="ko">
 <head>
@@ -38,6 +35,7 @@
 			<p>신규 고객정보를 입력하세요.</p>
 			
 			<%
+			String err = request.getParameter("err");
 			if (err != null) {
 				if (err.contains("id")) {
 			%>
