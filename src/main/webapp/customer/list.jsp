@@ -43,7 +43,7 @@
 			<table class="table table-sm">
 				<colgroup>
 					<col width="10%">
-					<col width="20">
+					<col width="20%">
 					<col width="20%">
 					<col width="20%">
 					<col width="15%">
@@ -71,16 +71,15 @@
 						<td><a href="detail.jsp?id=<%=id %>"><%=customer.getName() %></a></td>
 						<td><%=customer.getTel() %></td>
 						<td><%=customer.getEmail() %></td>
-						<td><%=disabled %></td>
-						<%-- <td><a href='<%="No".equals(disabled) ? "disable.jsp?id=hong' class='btn btn-danger btn-xs'>탈퇴" : "" %>처리</a></td> --%>
+						<td><%="No".equals(disabled) ? "<span class='badge text-bg-success'>사용중</span>" : "<span class='badge text-bg-secondary'>탈퇴</span>" %></td>
 						<%
 						if ("No".equals(disabled)) {
 						%>
-						<td><a href="disable.jsp?id=<%=id %>" class="btn btn-danger btn-xs">탈퇴처리</a></td>
+						<td><a href="disable.jsp?id=<%=id %>" class="btn btn-outline-danger btn-xs">탈퇴처리</a></td>
 						<%
 						} else {
 						%>
-						<td><a href="enable.jsp?id=<%=id %>" class="btn btn-success btn-xs">복구처리</a></td>
+						<td><a href="enable.jsp?id=<%=id %>" class="btn btn-outline-success btn-xs">복구처리</a></td>
 						<%
 						}
 						%>
