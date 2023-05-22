@@ -68,7 +68,7 @@
 						<th class="table-dark">적립포인트</th>
 						<td><%=cust.getPoint() %></td>
 						<th class="table-dark">탈퇴여부</th>
-						<td><%=("No".equals(cust.getDisabled()) ? "<span class='badge text-bg-primary'>사용중</span>" : "<span class='badge text-bg-secondary'>사용중</span>") %></td>
+						<td><%=("No".equals(cust.getDisabled()) ? "<span class='badge text-bg-primary'>사용중</span>" : "<span class='badge text-bg-secondary'>탈퇴</span>") %></td>
 					</tr>
 					<tr>
 						<th class="table-dark">가입일자</th>
@@ -79,7 +79,13 @@
 				</tbody>
 			</table>
 			<div class="text-end">
+				<%
+				if ("Yes".equals(cust.getDisabled())) {
+				%>
 				<a href="delete.jsp?id=<%=id %>" class="btn btn-danger btn-sm">삭제</a>
+				<%
+				}
+				%>
 				<a href="modifyform.jsp?id=<%=id %>" class="btn btn-warning btn-sm">수정</a>
 				<a href="list.jsp" class="btn btn-primary btn-sm">목록</a>
 			</div>
