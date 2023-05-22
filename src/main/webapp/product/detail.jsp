@@ -87,14 +87,8 @@ Product product = new ProductDao().getProductByNo(no);
 				</tbody>
 			</table>
 			<div class="text-end">
-				<!-- 
-					현재: product/detail.jsp
-					
-					목록 -> list.jsp
-					삭제 -> delete.jsp
-				 -->
 				<a href="delete.jsp?no=<%=product.getNo() %>" class="btn btn-danger btn-sm">삭제</a>
-				<a href="" class="btn btn-warning btn-sm">수정</a>
+				<a href="modifyForm.jsp?no=<%=product.getNo() %>" class="btn btn-warning btn-sm">수정</a>
 				<a href="list.jsp" class="btn btn-primary btn-sm">목록</a>
 			</div>
 		</div>

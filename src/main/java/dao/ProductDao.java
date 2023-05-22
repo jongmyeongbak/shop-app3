@@ -72,4 +72,16 @@ public class ProductDao {
 			return product;
 		});
 	}
+	
+	public void updateProduct(Product product) {
+		DaoHelper.update("product.updateProduct", product.getName(),
+												product.getMaker(),
+												product.getDescription(),
+												product.getPrice(),
+												product.getDiscountPrice(),
+												product.getOnSell(),
+												product.getStock(),
+												product.getCategory().getNo(),
+												product.getNo());
+	}
 }
