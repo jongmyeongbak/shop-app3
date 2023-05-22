@@ -11,7 +11,22 @@
 	Customer customer = new Customer(id, name, tel, email);
 	customer.setPassword(password);
 	
-	new CustomerDao().insertCustomer(customer);
+	CustomerDao customerDao = new CustomerDao();
+	
+	if (customerDao.getCustomerById(id) != null) {
+		if (customerDao.getCustomerByEmail(email) != null) {
+			response.sendRedirect("form.jsp?err=id_email");
+			return;
+		}
+		response.sendRedirect("form.jsp?err=id");
+		return;
+	}
+	if (customerDao.getCustomerByEmail(email) != null) {
+		response.sendRedirect("form.jsp?err=email");
+		return;
+	}
+	
+	customerDao.insertCustomer(customer);
 	
 	response.sendRedirect("registered.jsp");
 %>

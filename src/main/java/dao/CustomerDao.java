@@ -40,6 +40,20 @@ public class CustomerDao {
 		}, id);
 	}
 	
+	// Assume cust_email has unique constraint.
+	public Customer getCustomerByEmail(String id) {
+		return DaoHelper.selectOne("customerDao.getCustomerByEmail", rs -> {
+			return new Customer(rs.getString("cust_id"),
+					rs.getString("cust_name"),
+					rs.getString("cust_tel"),
+					rs.getString("cust_email"),
+					rs.getString("cust_disabled"),
+					rs.getInt("cust_point"),
+					rs.getDate("cust_update_date"),
+					rs.getDate("cust_create_date"));
+		}, id);
+	}
+	
 	public void updateCustomerDisabled(String disabled, String id) {
 		DaoHelper.update("customerDao.updateCustomerDisabled", disabled, id);
 	}
