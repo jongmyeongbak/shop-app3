@@ -9,7 +9,7 @@
 	Customer customer = customerDao.getCustomerById(id);
 	
 	if ("No".equals(customer.getDisabled())) {
-		response.sendRedirect("detail.jsp?err=fail&?id=" + id);
+		response.sendRedirect("detail.jsp?err=fail&id=" + id);
 		return;
 	}
 	customerDao.deleteCustomerById(id);
