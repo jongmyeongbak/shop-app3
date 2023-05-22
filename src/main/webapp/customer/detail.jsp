@@ -54,7 +54,7 @@
 				<tbody>
 					<tr>
 						<th class="table-dark">아이디</th>
-						<td><%=cust.getId() %></td>
+						<td><%=id %></td>
 						<th class="table-dark">이름</th>
 						<td><%=cust.getName() %></td>
 					</tr>
@@ -68,7 +68,7 @@
 						<th class="table-dark">적립포인트</th>
 						<td><%=cust.getPoint() %></td>
 						<th class="table-dark">탈퇴여부</th>
-						<td><%=cust.getDisabled() %></td>
+						<td><%=("No".equals(cust.getDisabled()) ? "<span class='badge text-bg-primary'>사용중</span>" : "<span class='badge text-bg-secondary'>사용중</span>") %></td>
 					</tr>
 					<tr>
 						<th class="table-dark">가입일자</th>
