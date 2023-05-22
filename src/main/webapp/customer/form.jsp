@@ -39,14 +39,14 @@
 			if (err != null) {
 				if (err.contains("id")) {
 			%>
-			<div class="alert alert-danger">
+			<div class="alert alert-danger" role="alert">
 				<strong>회원가입 실패</strong> 이미 사용 중인 아이디로 가입할 수 없습니다.
 			</div>
 			<%
 				}
 				if (err.contains("email")) {
 			%>
-			<div class="alert alert-danger">
+			<div class="alert alert-danger" role="alert">
 				<strong>회원가입 실패</strong> 이미 사용 중인 이메일로 가입할 수 없습니다.
 			</div>
 			<%	
