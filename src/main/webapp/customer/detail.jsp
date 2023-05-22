@@ -49,7 +49,7 @@
 			if (err != null) {
 			%>
 			<div class="alert alert-danger" role="alert">
-				<strong>삭제 실패</strong> 탈퇴하지 않은 고객은 삭제할 수 없습니다.
+				<strong>삭제 실패</strong> 탈퇴된 고객만 삭제할 수 있습니다.
 			</div>
 			<%
 			}
