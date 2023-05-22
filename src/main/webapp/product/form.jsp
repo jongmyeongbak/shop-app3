@@ -1,3 +1,6 @@
+<%@page import="vo.Category"%>
+<%@page import="java.util.List"%>
+<%@page import="dao.CategoryDao"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <!doctype html>
 <html lang="ko">
@@ -30,6 +33,22 @@
 		<div class="col-12">
 			<p>신규 상품 정보를 입력하세요.</p>
 			<form class="border bg-light p-3" method="post" action="insert.jsp">
+				<div class="form-group mb-2">
+					<label class="form-label">카테고리</label>
+					<select class="form-select" name="catNo">
+					<%
+					// 모든 카테고리정보 조회하기
+					CategoryDao categoryDao = new CategoryDao();
+					List<Category> categories = categoryDao.getCategories();
+					
+					for (Category cat : categories) {
+					%>
+						<option value="<%=cat.getNo() %>"><%=cat.getName() %></option>
+					<%
+					}
+					%>
+					</select>
+				</div>
 				<div class="form-group mb-2">
 					<label class="form-label">상품이름</label>
 					<input type="text" class="form-control" name="name" required />

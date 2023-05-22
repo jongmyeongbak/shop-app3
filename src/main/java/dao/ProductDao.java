@@ -3,6 +3,7 @@ package dao;
 import java.util.List;
 
 import util.DaoHelper;
+import vo.Category;
 import vo.Product;
 
 public class ProductDao {
@@ -34,6 +35,9 @@ public class ProductDao {
 			product.setUpdateDate(rs.getDate("product_update_date"));
 			product.setCreateDate(rs.getDate("product_create_date"));
 			
+			Category cat = new Category(rs.getInt("cat_no"), rs.getString("cat_name"));
+			product.setCategory(cat);
+			
 			return product;
 		}, no);
 	}
@@ -48,7 +52,8 @@ public class ProductDao {
 													product.getDescription(),
 													product.getPrice(),
 													product.getDiscountPrice(),
-													product.getStock());
+													product.getStock(),
+													product.getCategory().getNo());
 	}
 	
 	/**
