@@ -54,8 +54,17 @@ public class CustomerDao {
 		}, id);
 	}
 	
-	public void updateCustomerDisabled(String disabled, String id) {
-		DaoHelper.update("customerDao.updateCustomerDisabled", disabled, id);
+//	public void updateCustomerDisabled(String disabled, String id) {
+//		DaoHelper.update("customerDao.updateCustomerDisabled", disabled, id);
+//	}
+	
+	public void updateCustomer(Customer customer) {
+		DaoHelper.update("customerDao.updateCustomer", customer.getPassword(),
+													customer.getTel(),
+													customer.getEmail(),
+													customer.getDisabled(),
+													customer.getPoint(),
+													customer.getId());
 	}
 	
 	public void deleteCustomerById(String id) {
