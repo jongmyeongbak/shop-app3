@@ -71,7 +71,7 @@
 						<td><a href="detail.jsp?id=<%=id %>"><%=customer.getName() %></a></td>
 						<td><%=customer.getTel() %></td>
 						<td><%=customer.getEmail() %></td>
-						<td><%="No".equals(disabled) ? "<span class='badge text-bg-success'>사용중</span>" : "<span class='badge text-bg-secondary'>탈퇴</span>" %></td>
+						<td><%="No".equals(disabled) ? "<span class='badge text-bg-primary'>사용중</span>" : "<span class='badge text-bg-secondary'>탈퇴</span>" %></td>
 						<%
 						if ("No".equals(disabled)) {
 						%>
