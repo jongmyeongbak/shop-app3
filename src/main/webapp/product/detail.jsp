@@ -52,7 +52,7 @@ Product product = new ProductDao().getProductByNo(no);
 				<tbody>
 					<tr>
 						<th>상품이름</th>
-						<td><strong><%=product.getName() %></strong></td>
+						<td><b><%=product.getName() %></b></td>
 						<th>카테고리</th>
 						<td><%=product.getCategory().getName() %></td>
 					</tr>
