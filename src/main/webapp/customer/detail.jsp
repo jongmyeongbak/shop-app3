@@ -3,6 +3,7 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%
 	String id = request.getParameter("id");
+	String err = request.getParameter("err");
 	
 	Customer cust = new CustomerDao().getCustomerById(id);
 %>
@@ -43,6 +44,16 @@
 	<div class="row mb-3">
 		<div class="col-12">
 			<p>고객의 상세정보를 확인하세요.</p>
+			
+			<%
+			if (err != null) {
+			%>
+			<div class="alert alert-danger" role="alert">
+				<strong>삭제 실패</strong> 탈퇴하지 않은 고객은 삭제할 수 없습니다.
+			</div>
+			<%
+			}
+			%>
 			
 			<table class="table table-bordered">
 				<colgroup>
