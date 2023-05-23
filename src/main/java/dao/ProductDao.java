@@ -60,7 +60,7 @@ public class ProductDao {
 	 * 전체 상품목록을 반환한다.
 	 * @return 전체 상품 목록
 	 */
-	public List<Product> getProducts() {
+	public List<Product> getProducts(int begin, int end) {
 		return DaoHelper.selectList("productDao.getProducts", rs -> {
 			Product product = new Product();
 			product.setNo(rs.getInt("product_no"));
@@ -70,7 +70,7 @@ public class ProductDao {
 			product.setDiscountPrice(rs.getInt("product_discount_price"));
 			
 			return product;
-		});
+		}, begin, end);
 	}
 	
 	public void updateProduct(Product product) {
@@ -83,5 +83,11 @@ public class ProductDao {
 												product.getStock(),
 												product.getCategory().getNo(),
 												product.getNo());
+	}
+	
+	public int getTotalRows() {
+		return DaoHelper.selectOne("productDao.getTotalRows", rs -> {
+			return rs.getInt("cnt");
+		});
 	}
 }

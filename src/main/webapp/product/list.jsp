@@ -1,7 +1,62 @@
+<%@page import="dto.Pagination"%>
+<%@page import="util.StringUtils"%>
 <%@page import="vo.Product"%>
 <%@page import="java.util.List"%>
 <%@page import="dao.ProductDao"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
+<%
+// 요청 URL - list.jsp
+// 요청 URL - list.jsp?page=3
+int pageNo = StringUtils.stringToInt(request.getParameter("page"), 1);
+
+ProductDao dao = new ProductDao();
+// 전체 데이터 개수 조회하기
+int totalRows = dao.getTotalRows();
+
+Pagination pagination = new Pagination(pageNo, totalRows);
+
+// 데이터 조회하기
+List<Product> productList = dao.getProducts(pagination.getBegin(), pagination.getEnd());
+
+/* // 한 화면에 표시할 행의 개수
+final int ROWS = 10;
+
+// 한 화면에 표시할 쪽번호 개수
+int pages = 5;
+
+///////////////////////////////////////////////////////////////////////
+// 요청한 쪽에 맞는 데이터 조회하기
+///////////////////////////////////////////////////////////////////////
+// 요청한 쪽번호에 해당하는 데이터 조회범위를 구하기
+int begin = (pageNo - 1) * ROWS + 1;
+int end = pageNo * ROWS;
+
+//업무로직 수행 - 전체 상품목록 조회
+ProductDao dao = new ProductDao();
+List<Product> productList = dao.getProducts(begin, end);
+
+///////////////////////////////////////////////////////////////////////
+// 페이지 내비게이션 정보 구하기
+///////////////////////////////////////////////////////////////////////
+
+// 전체 데이터 개수 조회하기
+int totalRows = dao.getTotalRows();								// 175
+// 전체 페이지 개수 구하기
+// int totalPages = (int) Math.ceil((double) totalRows / ROWS);	// 175/10 -> 17.5 -> 18
+int totalPages = (totalRows - 1) / ROWS + 1;
+// 전체 페이지 블록 개수 구하기
+// int totalBlocks = (int) Math.ceil((double) totalPages / pages);	// 18/5 -> 3.8 -> 4
+int totalBlocks = (totalPages - 1) / pages + 1; 
+// 요청한 페이지번호가 속한 블록번호 구하기
+int currentBlock = (int) Math.ceil((double) pageNo / pages);	// 1/5 -> 0.2 -> 1
+// 페이지 내비게이션의 페이지 구간 구하기
+int beginPage = (currentBlock - 1) * pages + 1;
+int endPage = currentBlock * pages;
+if (currentBlock >= totalBlocks) {
+	endPage = totalPages;
+} */
+
+%>
 <!doctype html>
 <html lang="ko">
 <head>
@@ -51,9 +106,6 @@
 				</thead>
 				<tbody>
 				<%
-				// 업무로직 수행 - 전체 상품목록 조회
-				List<Product> productList = new ProductDao().getProducts();
-				
 				for (Product product : productList) {
 				%>
 					<tr>
@@ -68,6 +120,27 @@
 				%>
 				</tbody>
 			</table>
+			
+			<nav>
+				<ul class="pagination justify-content-center">
+					<li class="page-item<%=pageNo <= 1 ? " disabled" : ""%>">
+						<a href="list.jsp?page=<%=pageNo - 1 %>" class="page-link">이전</a>
+					</li>
+					<%
+					for (int num = pagination.getBeginPage(); num <= pagination.getEndPage(); num++) {
+					%>
+					<li class="page-item<%=num == pageNo ? " active" : ""%>">
+						<a href="list.jsp?page=<%=num %>" class="page-link"><%=num %></a>
+					</li>
+					<%
+					}
+					%>
+					<li class="page-item<%=pageNo >= pagination.getTotalPages() ? " disabled" : ""%>">
+						<a href="list.jsp?page=<%=pageNo + 1 %>" class="page-link">이후</a>
+					</li>
+				</ul>
+			</nav>
+			
 			<div class="text-end">
 				<a href="form.jsp" class="btn btn-primary btn-sm">새 상품 등록</a>
 			</div>
