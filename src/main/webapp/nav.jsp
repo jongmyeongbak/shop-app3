@@ -11,7 +11,7 @@ String loginId = (String) session.getAttribute("loginId");
          <li class="nav-item"><a class="nav-link <%="홈".equals(menu) ? " active" : "" %>" href="/app3/home.jsp">홈</a></li>
          <li class="nav-item"><a class="nav-link <%="상품".equals(menu) ? " active" : "" %>" href="/app3/product/list.jsp">상품관리</a></li>
          <li class="nav-item"><a class="nav-link <%="고객".equals(menu) ? " active" : "" %>" href="/app3/customer/list.jsp">고객 관리</a></li>
-         <li class="nav-item"><a class="nav-link disabled" href="">게시판 관리</a></li>
+         <li class="nav-item"><a class="nav-link <%="게시판".equals(menu) ? " active" : "" %>" href="/app3/board/list.jsp">게시판 관리</a></li>
       </ul>
       <ul class="navbar-nav">
 <%
