@@ -1,7 +1,6 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%
 String menu = request.getParameter("menu");
-System.out.println("메뉴 - " + menu);
 
 // 세션에서 로그인된 사용자아이디를 조회
 String loginId = (String) session.getAttribute("loginId");
