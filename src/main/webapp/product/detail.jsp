@@ -9,6 +9,7 @@
 
 // 요청파라미터 조회
 int no = Integer.parseInt(request.getParameter("no"));
+String err = request.getParameter("err");
 
 // 업무로직 수행
 ProductDao productDao = new ProductDao();
@@ -113,6 +114,17 @@ String loginId = (String) session.getAttribute("loginId");
 		</div>
 	</div>
 	<div class="row mb-3">
+	<%
+	if ("id".equals(err)) {
+	%>
+		<div class="col-7">
+			<div class="alert alert-danger">
+				<strong>삭제 실패</strong> 자신의 글만 삭제할 수 있습니다.
+			</div>
+		</div>
+	<%
+	}
+	%>
 		<div class="col-12">
 		<%
 		for (Review review : reviewList) {
@@ -126,7 +138,7 @@ String loginId = (String) session.getAttribute("loginId");
 					<%
 					if (review.getCustomer().getId().equals(loginId)) {
 					%>
-					<a href="deleteReiview.jsp?no=<%=no %>&rno=<%=review.getNo() %>"
+					<a href="deleteReview.jsp?no=<%=no %>&rno=<%=review.getNo() %>"
 					class="btn btn-link text-danger text-decoration-none float-end"><i class="bi bi-trash"></i></a>
 					<%
 					}
