@@ -1,4 +1,21 @@
+<%@page import="java.net.URLEncoder"%>
+<%@page import="vo.Board"%>
+<%@page import="java.util.List"%>
+<%@page import="dto.Pagination"%>
+<%@page import="dao.BoardDao"%>
+<%@page import="util.StringUtils"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
+<%
+String loginId = request.getParameter("loginId");
+int pageNo = StringUtils.stringToInt(request.getParameter("pageNo"), 1);
+
+BoardDao boardDao = new BoardDao();
+int totalRows = boardDao.getTotalRows();
+
+Pagination pagination = new Pagination(pageNo, totalRows);
+
+List<Board> boardList = boardDao.getBoards(pagination.getBegin(), pagination.getEnd());
+%>
 <!doctype html>
 <html lang="ko">
 <head>
@@ -39,56 +56,49 @@
 						<th>번호</th>
 						<th>제목</th>
 						<th>작성자</th>
-						<th>리뷰갯수</th>
+						<th>리뷰개수</th>
 						<th>등록일</th>
 					</tr>
 				</thead>
 				<tbody>
+				<%
+				for (Board board : boardList) {
+					int no = board.getNo();
+				%>
 					<tr>
-						<td>100</td>
-						<td><a href="detail.jsp?no=글번호">글쓰기 연습입니다.</a></td>
-						<td>홍길동</td>
-						<td>10</td>
-						<td>2023-05-11</td>
+						<td><%=no %></td>
+						<td><a href="detail.jsp?no=<%=no %>"><%=board.getTitle().replace("\r\n", "<br>") %></a></td>
+						<td><%=board.getCustomer().getName() %></td>
+						<td><%=board.getCommentCnt() %></td>
+						<td><%=board.getCreateDate() %></td>
 					</tr>
-					<tr>
-						<td>100</td>
-						<td><a href="detail.jsp?no=글번호">글쓰기 연습입니다.</a></td>
-						<td>홍길동</td>
-						<td>10</td>
-						<td>2023-05-11</td>
-					</tr>
-					<tr>
-						<td>100</td>
-						<td><a href="detail.jsp?no=글번호">글쓰기 연습입니다.</a></td>
-						<td>홍길동</td>
-						<td>10</td>
-						<td>2023-05-11</td>
-					</tr>
+				<%
+				}
+				%>
 				</tbody>
 			</table>
 			<nav>
 				<ul class="pagination justify-content-center">
-					<li class="page-item disabled">
-						<a href="list.jsp?page=1" class="page-link">이전</a>
+					<li class="page-item<%=pageNo <= 1 ? " disabled" : "" %>">
+						<a href="list.jsp?page=<%=pageNo - 1 %>" class="page-link">이전</a>
 					</li>
+					<%
+					for (int i = pagination.getBeginPage(); i <= pagination.getEndPage(); i++) {
+					%>
 					<li class="page-item active">
-						<a href="list.jsp?page=1" class="page-link">1</a>
+						<a href="list.jsp?page=<%=i %>" class="page-link"><%=i %></a>
 					</li>
-					<li class="page-item">
-						<a href="list.jsp?page=2" class="page-link">2</a>
-					</li>
-					<li class="page-item">
-						<a href="list.jsp?page=3" class="page-link">3</a>
-					</li>
-					<li class="page-item ">
-						<a href="list.jsp?page=2" class="page-link">다음</a>
+					<%
+					}
+					%>
+					<li class="page-item<%=pageNo >= pagination.getTotalPages() ? " disabled" : "" %>">
+						<a href="list.jsp?page=<%=pageNo + 1 %>" class="page-link">다음</a>
 					</li>
 				</ul>
 			</nav>
 			
 			<div class="text-end">
-				<a href="form.jsp" class="btn btn-primary btn-sm">새 게시글 등록</a>
+				<a href="<%=loginId == null ? "../loginform.jsp?err=req&job=" + URLEncoder.encode("새글등록", "utf-8") : "form.jsp" %>" class="btn btn-primary btn-sm">새 게시글 등록</a>
 			</div>
 		</div>
 	</div>

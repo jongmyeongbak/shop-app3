@@ -23,6 +23,17 @@
 	</div>
 	<div class="row mb-3">
 		<div class="col-12">
+			<%
+			String err = request.getParameter("err");
+
+			if ("empty".equals(err)) {
+			%>
+			<div class="alert alert-danger">
+				<strong>작성 실패</strong> 제목 또는 본문이 비어있습니다.
+			</div>
+			<%
+			}
+			%>
 			<p>제목과 내용을 입력하세요</p>		
 			<form class="border bg-light p-3" method="post" action="insert.jsp">
 				<div class="form-group mb-2">
