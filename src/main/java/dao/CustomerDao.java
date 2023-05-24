@@ -30,6 +30,7 @@ public class CustomerDao {
 	public Customer getCustomerById(String id) {
 		return DaoHelper.selectOne("customerDao.getCustomerById", rs -> {
 			return new Customer(rs.getString("cust_id"),
+					rs.getString("cust_password"),
 					rs.getString("cust_name"),
 					rs.getString("cust_tel"),
 					rs.getString("cust_email"),

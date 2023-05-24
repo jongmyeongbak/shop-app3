@@ -35,6 +35,19 @@ public class Customer {
 		this.updateDate = updateDate;
 		this.createDate = createDate;
 	}
+	public Customer(String id, String password, String name, String tel, String email, String disabled, int point,
+			Date updateDate, Date createDate) {
+		super();
+		this.id = id;
+		this.password = password;
+		this.name = name;
+		this.tel = tel;
+		this.email = email;
+		this.disabled = disabled;
+		this.point = point;
+		this.updateDate = updateDate;
+		this.createDate = createDate;
+	}
 	
 	public String getId() {
 		return id;
