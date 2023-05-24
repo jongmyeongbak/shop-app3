@@ -16,6 +16,15 @@ public class Customer {
 	
 	public Customer() {
 	}
+	public Customer(String id) {
+		this.id = id;
+	}
+	public Customer(String id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
+	
 	public Customer(String id, String name, String tel, String email) {
 		super();
 		this.id = id;

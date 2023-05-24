@@ -18,6 +18,9 @@ public class Product {
 
 	public Product() {
 	}
+	public Product(int no) {
+		this.no = no;
+	}
 	
 	public int getNo() {
 		return no;
