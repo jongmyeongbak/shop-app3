@@ -41,7 +41,7 @@ String job = request.getParameter("job");
 		} else if ("req".equals(err)) {
 		%>
 			<div class="alert alert-danger">
-				<strong>로그인 필요</strong> [<%=job %>]은 로그인 후 사용가능한 서비스입니다.
+				<strong>로그인 필요</strong> [<%=job %>]은(는) 로그인 후 사용가능한 서비스입니다.
 			</div>
 		<%
 		}

@@ -62,4 +62,7 @@ public class BoardDao {
 	public void decreaseCommentCnt(int no) {
 		DaoHelper.update("boardDao.decreaseCommentCnt", no);
 	}
+	public void updateDeleted(String deleted, int no) {
+		DaoHelper.update("boardDao.updateDeleted", deleted, no);
+	}
 }

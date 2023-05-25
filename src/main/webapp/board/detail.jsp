@@ -20,6 +20,7 @@ if (board == null || "Y".equals(board.getDeleted())) {
 	return;
 }
 String err = request.getParameter("err");
+String job = request.getParameter("job");
 %>
 <!doctype html>
 <html lang="ko">
@@ -101,9 +102,17 @@ String err = request.getParameter("err");
 			</form>   	
    		</div>
    	</div>
- 	<div class="alert alert-danger">
-		<strong>삭제 실패</strong> 자신의 댓글만 삭제할 수 있습니다.
-	</div>
+	<%
+	if ("id".equals(err)) {
+	%>
+		<div class="col-7">
+			<div class="alert alert-danger">
+				<strong>회원 불일치</strong> [<%=job %>]는 본인만 가능합니다.
+			</div>
+		</div>
+	<%
+	}
+	%>
 	<div class="row mb-3">
    		<div class="col-12">
    		<%
