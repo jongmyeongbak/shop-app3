@@ -1,4 +1,22 @@
+<%@page import="java.util.Iterator"%>
+<%@page import="java.util.HashSet"%>
+<%@page import="java.util.Set"%>
+<%@page import="util.StringUtils"%>
+<%@page import="dao.BoardDao"%>
+<%@page import="vo.Board"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
+<%
+int no = StringUtils.stringToInt(request.getParameter("no"));
+String loginId = (String) session.getAttribute("loginId"); 
+
+BoardDao boardDao = new BoardDao();
+Board board = boardDao.getBoardByNo(no);
+
+if (board == null || "Y".equals(board.getDeleted())) {
+	response.sendRedirect("list.jsp?err=deleted");
+	return;
+}
+%>
 <!doctype html>
 <html lang="ko">
 <head>
@@ -6,6 +24,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <style type="text/css">
@@ -14,7 +33,7 @@
 </head>
 <body>
 <jsp:include page="../nav.jsp">
-	<jsp:param name="menu" value="게시글"/>
+	<jsp:param name="menu" value="게시판"/>
 </jsp:include>
 <div class="container my-3">
 	<div class="row mb-3">
@@ -35,27 +54,30 @@
 				<tbody>
 					<tr>
 						<th class="table-dark">제목</th>
-						<td>게시글 연습</td>
+						<td style='white-space: break-spaces;'><%=board.getTitle() %></td>
 						<th class="table-dark">작성자</th>
-						<td>홍길동</td>
+						<td><%=board.getCustomer().getName() %></td>
 					</tr>
 					<tr>
 						<th class="table-dark">조회수</th>
-						<td>100</td>
-						<th class="table-dark">댓글갯수</th>
-						<td>1</td>
+						<td><%=board.getReadCnt() %></td>
+						<th class="table-dark">댓글개수</th>
+						<td><%=board.getCommentCnt() %></td>
 					</tr>
 					<tr>
 						<th class="table-dark">등록일</th>
-						<td>2023-05-23</td>
+						<td><%=board.getCreateDate() %></td>
 						<th class="table-dark">최종수정일자</th>
-						<td>2023-05-20</td>
+						<td><%=board.getUpdateDate() %></td>
+					</tr>
+					<tr>
+						<td style='white-space: break-spaces;' colspan="4"><%=board.getContent().replace("\r\n", "<br>") %></td>
 					</tr>
 				</tbody>
 			</table>
 			<div class="text-end">
-				<a href="delete.jsp?no=글번호" class="btn btn-danger btn-sm">삭제</a>
-				<a href="modifyform.jsp?no=글번호" class="btn btn-warning btn-sm">수정</a>
+				<a href="delete.jsp?no=<%=no %>" class="btn btn-danger btn-sm"<%=loginId == null || !loginId.equals(board.getCustomer().getId()) ? " hidden" : "" %>>삭제</a>
+				<a href="modifyform.jsp?no=<%=no %>" class="btn btn-warning btn-sm"<%=loginId == null || !loginId.equals(board.getCustomer().getId()) ? " hidden" : "" %>>수정</a>
 				<a href="list.jsp" class="btn btn-primary btn-sm">목록</a>
 			</div>
 		</div>
@@ -63,7 +85,7 @@
 	<div class="row mb-3">
    		<div class="col-12">
 			<form class="border bg-light p-2" method="post" action="insertComment.jsp">
-				<input type="hidden" name="boardNo" value="게시글번호" />
+				<input type="hidden" name="boardNo" value="<%=no %>" />
  				<div class="row">
 					<div class="col-11">
 						<textarea rows="2" class="form-control" name="content"></textarea>
@@ -83,7 +105,7 @@
 	   			</div>
 	   			<div>
 	   				댓글 내용입니다. 댓글내용입니다.
-	   				<a href="deleteComment.jsp?no=게시글번호&cno=댓글번호" 
+	   				<a href="deleteComment.jsp?no=<%=no %>&cno=댓글번호" 
 	   					class="btn btn-link text-danger text-decoration-none float-end"><i class="bi bi-trash"></i></a>
 	   			</div>   			
    			</div>
@@ -93,7 +115,7 @@
 	   			</div>
 	   			<div>
 	   				댓글 내용입니다. 댓글내용입니다.
-	   				<a href="deleteComment.jsp?no=게시글번호&cno=댓글번호" 
+	   				<a href="deleteComment.jsp?no=<%=no %>&cno=댓글번호" 
 	   					class="btn btn-link text-danger text-decoration-none float-end"><i class="bi bi-trash"></i></a>
 	   			</div>   			
    			</div>

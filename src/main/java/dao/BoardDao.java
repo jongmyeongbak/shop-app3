@@ -8,8 +8,14 @@ import vo.Customer;
 
 public class BoardDao {
 
+	public int getBoardsSeq() {
+		return DaoHelper.selectOne("boardDao.getBoardsSeq", rs -> {
+			return rs.getInt("nextval");
+		});
+	}
 	public void insertBoard(Board board) {
-		DaoHelper.update("boardDao.insertBoard", board.getTitle(),
+		DaoHelper.update("boardDao.insertBoard", board.getNo(),
+												board.getTitle(),
 												board.getContent(),
 												board.getCustomer().getId());
 	}
@@ -29,5 +35,25 @@ public class BoardDao {
 			board.setCustomer(new Customer(null, rs.getString("cust_name")));
 			return board;
 		}, begin, end);
+	}
+	
+	public Board getBoardByNo(int no) {
+		return DaoHelper.selectOne("boardDao.getBoardByNo", rs -> {
+			Board board = new Board();
+			board.setNo(no);
+			board.setTitle(rs.getString("board_title"));
+			board.setContent(rs.getString("board_content"));
+			board.setCommentCnt(rs.getInt("board_comment_cnt"));
+			board.setReadCnt(rs.getInt("board_read_cnt"));
+			board.setDeleted(rs.getString("board_deleted"));
+			board.setUpdateDate(rs.getDate("board_update_date"));
+			board.setCreateDate(rs.getDate("board_create_date"));
+			board.setCustomer(new Customer(rs.getString("cust_id"), rs.getString("cust_name")));
+			return board;
+		}, no);
+	}
+	
+	public void updateReadCnt(int no) {
+		DaoHelper.update("boardDao.updateReadCnt", no);
 	}
 }

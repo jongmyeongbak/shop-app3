@@ -6,8 +6,9 @@
 <%@page import="util.StringUtils"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%
-String loginId = request.getParameter("loginId");
-int pageNo = StringUtils.stringToInt(request.getParameter("pageNo"), 1);
+String err = request.getParameter("err");
+String loginId = (String) session.getAttribute("loginId");
+int pageNo = StringUtils.stringToInt(request.getParameter("page"), 1);
 
 BoardDao boardDao = new BoardDao();
 int totalRows = boardDao.getTotalRows();
@@ -41,6 +42,15 @@ List<Board> boardList = boardDao.getBoards(pagination.getBegin(), pagination.get
 	</div>
 	<div class="row mb-3">
 		<div class="col-12">
+			<%
+			if ("deleted".equals(err)) {
+			%>
+				<div class="alert alert-danger">
+					<strong>조회 불가</strong> 선택하신 게시물이 존재하지 않습니다.
+				</div>
+			<%
+			}
+			%>
 			<p>게시글 목록을 확인하세요.</p>
 			
 			<table class="table table-sm">
@@ -67,7 +77,7 @@ List<Board> boardList = boardDao.getBoards(pagination.getBegin(), pagination.get
 				%>
 					<tr>
 						<td><%=no %></td>
-						<td><a href="detail.jsp?no=<%=no %>"><%=board.getTitle().replace("\r\n", "<br>") %></a></td>
+						<td><a style='white-space: break-spaces;' href="read.jsp?no=<%=no %>"><%=board.getTitle() %></a></td>
 						<td><%=board.getCustomer().getName() %></td>
 						<td><%=board.getCommentCnt() %></td>
 						<td><%=board.getCreateDate() %></td>
@@ -85,7 +95,7 @@ List<Board> boardList = boardDao.getBoards(pagination.getBegin(), pagination.get
 					<%
 					for (int i = pagination.getBeginPage(); i <= pagination.getEndPage(); i++) {
 					%>
-					<li class="page-item active">
+					<li class="page-item<%=i == pageNo ? " active" : "" %>">
 						<a href="list.jsp?page=<%=i %>" class="page-link"><%=i %></a>
 					</li>
 					<%
@@ -97,7 +107,8 @@ List<Board> boardList = boardDao.getBoards(pagination.getBegin(), pagination.get
 				</ul>
 			</nav>
 			
-			<div class="text-end">
+			<!-- 비회원에게 새글등록 링크를 숨길지 노출할지 미정 -->
+			<div class="text-end"<%=loginId == null ? " hidden" : "" %>>
 				<a href="<%=loginId == null ? "../loginform.jsp?err=req&job=" + URLEncoder.encode("새글등록", "utf-8") : "form.jsp" %>" class="btn btn-primary btn-sm">새 게시글 등록</a>
 			</div>
 		</div>

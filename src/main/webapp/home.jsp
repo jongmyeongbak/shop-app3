@@ -68,6 +68,7 @@
 			* customer/delete.jsp - 고객정보를 삭제한다.
 						     - 고객정보 삭제 후 list.jsp를 재요청하는 URL을 응답으로 보낸다.
  --%>
+<%@page import="java.util.Set"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <!doctype html>
 <html lang="ko">
