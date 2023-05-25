@@ -87,7 +87,7 @@ String loginId = (String) session.getAttribute("loginId");
 					</tr>
 					<tr>
 						<th>상품설명</th>
-						<td colspan="4"><%=product.getDescription().replace("\r\n", "<br>") %></td>
+						<td style='white-space: break-spaces;' colspan="4"><%=product.getDescription() %></td>
 					</tr>
 				</tbody>
 			</table>
@@ -133,8 +133,8 @@ String loginId = (String) session.getAttribute("loginId");
 				<div class="d-flex justify-content-between mb-1">
 					<span><%=review.getCustomer().getName() %></span><span class="text-muted"><%=review.getCreateDate() %></span>
 				</div>
-				<div>
-					<%=review.getContent().replace("\r\n", "<br>") %>
+				<div style='white-space: break-spaces;'>
+					<%=review.getContent() %>
 					<%
 					if (review.getCustomer().getId().equals(loginId)) {
 					%>
