@@ -53,7 +53,13 @@ public class BoardDao {
 		}, no);
 	}
 	
-	public void updateReadCnt(int no) {
-		DaoHelper.update("boardDao.updateReadCnt", no);
+	public void increaseReadCnt(int no) {
+		DaoHelper.update("boardDao.increaseReadCnt", no);
+	}
+	public void increaseCommentCnt(int no) {
+		DaoHelper.update("boardDao.increaseCommentCnt", no);
+	}
+	public void decreaseCommentCnt(int no) {
+		DaoHelper.update("boardDao.decreaseCommentCnt", no);
 	}
 }

@@ -1,3 +1,6 @@
+<%@page import="dao.CommentDao"%>
+<%@page import="vo.Comment"%>
+<%@page import="java.util.List"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.HashSet"%>
 <%@page import="java.util.Set"%>
@@ -16,6 +19,7 @@ if (board == null || "Y".equals(board.getDeleted())) {
 	response.sendRedirect("list.jsp?err=deleted");
 	return;
 }
+String err = request.getParameter("err");
 %>
 <!doctype html>
 <html lang="ko">
@@ -71,7 +75,7 @@ if (board == null || "Y".equals(board.getDeleted())) {
 						<td><%=board.getUpdateDate() %></td>
 					</tr>
 					<tr>
-						<td style='white-space: break-spaces;' colspan="4"><%=board.getContent().replace("\r\n", "<br>") %></td>
+						<td style='white-space: break-spaces;' colspan="4"><%=board.getContent() %></td>
 					</tr>
 				</tbody>
 			</table>
@@ -88,7 +92,7 @@ if (board == null || "Y".equals(board.getDeleted())) {
 				<input type="hidden" name="boardNo" value="<%=no %>" />
  				<div class="row">
 					<div class="col-11">
-						<textarea rows="2" class="form-control" name="content"></textarea>
+						<textarea rows="2" class="form-control" name="content" <%="empty".equals(err) ? "placeholder='내용을 입력해야 등록할 수 있습니다.' onfocus='this.placeholder=\"\"'" : "" %>></textarea>
 					</div>
 					<div class="col-1">
 						<button class="btn btn-outline-primary h-100">등록</button>
@@ -97,28 +101,32 @@ if (board == null || "Y".equals(board.getDeleted())) {
 			</form>   	
    		</div>
    	</div>
+ 	<div class="alert alert-danger">
+		<strong>삭제 실패</strong> 자신의 댓글만 삭제할 수 있습니다.
+	</div>
 	<div class="row mb-3">
    		<div class="col-12">
+   		<%
+   		List<Comment> comments = new CommentDao().getCommentsByBoardNo(no);
+   		for (Comment comment : comments) {
+   			String cid = comment.getCustomer().getId();
+   		%>
    			<div class="border p-2 mb-2">
 	   			<div class="d-flex justify-content-between mb-1">
-	   				<span>홍길동</span> <span class="text-muted">2022-05-21</span>
+	   				<span><%=comment.getCustomer().getName() %></span> <span class="text-muted"><%=comment.getCreateDate() %></span>
 	   			</div>
-	   			<div>
-	   				댓글 내용입니다. 댓글내용입니다.
-	   				<a href="deleteComment.jsp?no=<%=no %>&cno=댓글번호" 
-	   					class="btn btn-link text-danger text-decoration-none float-end"><i class="bi bi-trash"></i></a>
-	   			</div>   			
-   			</div>
-   			<div class="border p-2 mb-2">
-	   			<div class="d-flex justify-content-between mb-1">
-	   				<span>홍길동</span> <span class="text-muted">2022-05-21</span>
+	   			<div style='white-space: break-spaces;'><%=comment.getContent() %><%
+	   			if (cid != null && cid.equals(loginId)) {
+	   			%><a href="deleteComment.jsp?no=<%=no %>&cno=<%=comment.getNo() %>" 
+	   				class="btn btn-link text-danger text-decoration-none float-end"><i class="bi bi-trash"></i></a>
+	   			<%
+	   			}
+	   			%>
 	   			</div>
-	   			<div>
-	   				댓글 내용입니다. 댓글내용입니다.
-	   				<a href="deleteComment.jsp?no=<%=no %>&cno=댓글번호" 
-	   					class="btn btn-link text-danger text-decoration-none float-end"><i class="bi bi-trash"></i></a>
-	   			</div>   			
    			</div>
+   		<%
+   		}
+   		%>
    		</div>
    	</div>
 </div>

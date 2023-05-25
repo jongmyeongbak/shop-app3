@@ -23,7 +23,7 @@ if (viewedPosts == null) {
 }
 
 if (!viewedPosts.contains(no)) {
-	boardDao.updateReadCnt(no);
+	boardDao.increaseReadCnt(no);
 	viewedPosts.add(no);
 }
 
