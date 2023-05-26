@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -117,6 +118,8 @@ public class DaoHelper {
 				pstmt.setLong(index, (Long) param);
 			} else if (param instanceof Double) {
 				pstmt.setDouble(index, (Double) param);
+			} else {
+				pstmt.setNull(index, Types.NULL);
 			}
 			index++;
 		}
