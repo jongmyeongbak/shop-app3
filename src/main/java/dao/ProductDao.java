@@ -3,6 +3,7 @@ package dao;
 import java.util.List;
 
 import util.DaoHelper;
+import vo.Category;
 import vo.Product;
 
 public class ProductDao {
@@ -34,6 +35,9 @@ public class ProductDao {
 			product.setUpdateDate(rs.getDate("product_update_date"));
 			product.setCreateDate(rs.getDate("product_create_date"));
 			
+			Category cat = new Category(rs.getInt("cat_no"), rs.getString("cat_name"));
+			product.setCategory(cat);
+			
 			return product;
 		}, no);
 	}
@@ -48,14 +52,15 @@ public class ProductDao {
 													product.getDescription(),
 													product.getPrice(),
 													product.getDiscountPrice(),
-													product.getStock());
+													product.getStock(),
+													product.getCategory().getNo());
 	}
 	
 	/**
 	 * 전체 상품목록을 반환한다.
 	 * @return 전체 상품 목록
 	 */
-	public List<Product> getProducts() {
+	public List<Product> getProducts(int begin, int end) {
 		return DaoHelper.selectList("productDao.getProducts", rs -> {
 			Product product = new Product();
 			product.setNo(rs.getInt("product_no"));
@@ -65,6 +70,24 @@ public class ProductDao {
 			product.setDiscountPrice(rs.getInt("product_discount_price"));
 			
 			return product;
+		}, begin, end);
+	}
+	
+	public void updateProduct(Product product) {
+		DaoHelper.update("product.updateProduct", product.getName(),
+												product.getMaker(),
+												product.getDescription(),
+												product.getPrice(),
+												product.getDiscountPrice(),
+												product.getOnSell(),
+												product.getStock(),
+												product.getCategory().getNo(),
+												product.getNo());
+	}
+	
+	public int getTotalRows() {
+		return DaoHelper.selectOne("productDao.getTotalRows", rs -> {
+			return rs.getInt("cnt");
 		});
 	}
 }

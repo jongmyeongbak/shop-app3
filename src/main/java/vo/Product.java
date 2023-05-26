@@ -14,8 +14,12 @@ public class Product {
 	private int stock;
 	private Date updateDate;
 	private Date createDate;
+	private Category category;
 
 	public Product() {
+	}
+	public Product(int no) {
+		this.no = no;
 	}
 	
 	public int getNo() {
@@ -77,5 +81,11 @@ public class Product {
 	}
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
+	}
+	public Category getCategory() {
+		return category;
+	}
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 }

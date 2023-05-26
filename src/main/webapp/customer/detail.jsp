@@ -1,4 +1,12 @@
+<%@page import="dao.CustomerDao"%>
+<%@page import="vo.Customer"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
+<%
+	String id = request.getParameter("id");
+	String err = request.getParameter("err");
+	
+	Customer cust = new CustomerDao().getCustomerById(id);
+%>
 <!doctype html>
 <html lang="ko">
 <head>
@@ -13,20 +21,9 @@
 </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-   <div class="container">
-      <ul class="navbar-nav me-auto">
-         <li class="nav-item"><a class="nav-link" href="/app3/home.jsp">홈</a></li>
-         <li class="nav-item"><a class="nav-link" href="/app3/product/list.jsp">상품관리</a></li>
-         <li class="nav-item"><a class="nav-link active" href="/app3/customer/list.jsp">고객 관리</a></li>
-         <li class="nav-item"><a class="nav-link disabled" href="">게시판 관리</a></li>
-      </ul>
-      <ul class="navbar-nav">
-         <li class="nav-item"><a class="nav-link disabled" href="">로그인</a></li>
-         <li class="nav-item"><a class="nav-link" href="/app3/customer/form.jsp">회원가입</a></li>
-      </ul>
-   </div>
-</nav>
+<jsp:include page="../nav.jsp">
+	<jsp:param value="고객" name="menu"/>
+</jsp:include>
 <div class="container my-3">
 	<div class="row mb-3">
 		<div class="col-12">
@@ -37,43 +34,59 @@
 		<div class="col-12">
 			<p>고객의 상세정보를 확인하세요.</p>
 			
+			<%
+			if (err != null) {
+			%>
+			<div class="alert alert-danger" role="alert">
+				<strong>삭제 실패</strong> 탈퇴된 고객만 삭제할 수 있습니다.
+			</div>
+			<%
+			}
+			%>
+			
 			<table class="table table-bordered">
 				<colgroup>
+					<col width="12%">
+					<col width="39%">
 					<col width="10%">
-					<col width="40%">
-					<col width="10%">
-					<col width="40%">
+					<col width="39%">
 				</colgroup>
 				<tbody>
 					<tr>
 						<th class="table-dark">아이디</th>
-						<td>hong</td>
+						<td><%=id %></td>
 						<th class="table-dark">이름</th>
-						<td>홍길동</td>
+						<td><%=cust.getName() %></td>
 					</tr>
 					<tr>
 						<th class="table-dark">전화번호</th>
-						<td>010-1111-1111</td>
+						<td><%=cust.getTel() %></td>
 						<th class="table-dark">이메일</th>
-						<td>hong@gmail.com</td>
+						<td><%=cust.getEmail() %></td>
 					</tr>
 					<tr>
 						<th class="table-dark">적립포인트</th>
-						<td>200,000</td>
+						<td><%=cust.getPoint() %></td>
 						<th class="table-dark">탈퇴여부</th>
-						<td>No</td>
+						<td><%=("No".equals(cust.getDisabled()) ? "<span class='badge text-bg-primary'>사용중</span>" : "<span class='badge text-bg-secondary'>탈퇴</span>") %></td>
 					</tr>
 					<tr>
 						<th class="table-dark">가입일자</th>
-						<td>2023-05-19</td>
+						<td><%=cust.getCreateDate() %></td>
 						<th class="table-dark">수정일자</th>
-						<td>2023-05-19</td>
+						<td><%=cust.getUpdateDate() %></td>
 					</tr>
 				</tbody>
 			</table>
 			<div class="text-end">
-				<a href="delete.jsp?id=hong" class="btn btn-danger btn-sm">삭제</a>
-				<a href="modifyform.jsp?id=hong" class="btn btn-warning btn-sm">수정</a>
+				<%
+				if ("Yes".equals(cust.getDisabled())) {
+				%>
+				<a href="delete.jsp?id=<%=id %>" class="btn btn-danger btn-sm">삭제</a>
+				<%
+				}
+				%>
+				<a href="modifyform.jsp?id=<%=id %>" class="btn btn-warning btn-sm">수정</a>
 				<a href="list.jsp" class="btn btn-primary btn-sm">목록</a>
 			</div>
 		</div>

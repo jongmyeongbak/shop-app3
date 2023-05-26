@@ -10,20 +10,9 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 </head>
 <body>
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-   <div class="container">
-      <ul class="navbar-nav me-auto">
-         <li class="nav-item"><a class="nav-link" href="/app3/home.jsp">홈</a></li>
-         <li class="nav-item"><a class="nav-link" href="/app3/product/list.jsp">상품관리</a></li>
-         <li class="nav-item"><a class="nav-link" href="/app3/customer/list.jsp">고객 관리</a></li>
-         <li class="nav-item"><a class="nav-link disabled" href="">게시판 관리</a></li>
-      </ul>
-      <ul class="navbar-nav">
-         <li class="nav-item"><a class="nav-link disabled" href="">로그인</a></li>
-         <li class="nav-item"><a class="nav-link active" href="/app3/customer/form.jsp">회원가입</a></li>
-      </ul>
-   </div>
-</nav>
+<jsp:include page="../nav.jsp">
+	<jsp:param value="회원가입" name="menu"/>
+</jsp:include>
 <div class="container my-3">
 	<div class="row mb-3">
 		<div class="col-12">
@@ -34,18 +23,38 @@
 		<div class="col-12">
 			<p>신규 고객정보를 입력하세요.</p>
 			
+			<%
+			String err = request.getParameter("err");
+			if (err != null) {
+				if (err.contains("id")) {
+			%>
+			<div class="alert alert-danger" role="alert">
+				<strong>회원가입 실패</strong> 이미 사용 중인 아이디로 가입할 수 없습니다.
+			</div>
+			<%
+				}
+				if (err.contains("email")) {
+			%>
+			<div class="alert alert-danger" role="alert">
+				<strong>회원가입 실패</strong> 이미 사용 중인 이메일로 가입할 수 없습니다.
+			</div>
+			<%	
+				}
+			}
+			%>
+			
 			<form class="border bg-light p-3" method="post" action="insert.jsp">
 				<div class="form-group mb-2">
 					<label class="form-label">아이디</label>
-					<input type="text" class="form-control" name="id"/>
+					<input type="text" class="form-control" name="id" required />
 				</div>
 				<div class="form-group mb-2">
 					<label class="form-label">비밀번호</label>
-					<input type="password" class="form-control" name="password"/>
+					<input type="password" class="form-control" name="password" required />
 				</div>
 				<div class="form-group mb-2">
 					<label class="form-label">이름</label>
-					<input type="text" class="form-control" name="name"/>
+					<input type="text" class="form-control" name="name" required />
 				</div>
 				<div class="form-group mb-2">
 					<label class="form-label">전화번호</label>

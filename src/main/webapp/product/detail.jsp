@@ -1,3 +1,6 @@
+<%@page import="vo.Review"%>
+<%@page import="java.util.List"%>
+<%@page import="dao.ReviewDao"%>
 <%@page import="vo.Product"%>
 <%@page import="dao.ProductDao"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
@@ -6,10 +9,18 @@
 
 // 요청파라미터 조회
 int no = Integer.parseInt(request.getParameter("no"));
+String err = request.getParameter("err");
 
-// 업무로직 수행 - 요청파라미터로 전달받은 상품번호에 해당하는 
-Product product = new ProductDao().getProductByNo(no);
+// 업무로직 수행
+ProductDao productDao = new ProductDao();
+ReviewDao reviewDao = new ReviewDao(); 
+// 업무로직 수행 - 요청파라미터로 전달받은 상품번호에 해당하는 정보 조회하기
+Product product = productDao.getProductByNo(no);
 // System.out.println(product.getDescription().contains("\r\n"));
+// 해당 상품의 모든 리뷰목록 조회하기
+List<Review> reviewList = reviewDao.getReviewsByProductNo(no);
+// 세션에서 로그인된 사용자 정보 조회하기
+String loginId = (String) session.getAttribute("loginId");
 %>
 <!doctype html>
 <html lang="ko">
@@ -18,20 +29,14 @@ Product product = new ProductDao().getProductByNo(no);
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 </head>
 <body>
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-	<div class="container">
-		<ul class="navbar-nav me-auto">
-			<li class="nav-item"><a class="nav-link" href="/app3/home.jsp">홈</a></li>
-			<li class="nav-item"><a class="nav-link active" href="/app3/product/list.jsp">상품관리</a></li>
-			<li class="nav-item"><a class="nav-link disabled" href="">고객 관리</a></li>
-			<li class="nav-item"><a class="nav-link disabled" href="">게시판 관리</a></li>
-		</ul>
-	</div>
-</nav>
+<jsp:include page="../nav.jsp">
+	<jsp:param value="상품" name="menu"/>
+</jsp:include>
 <div class="container my-3">
 	<div class="row mb-3">
 		<div class="col-12">
@@ -52,7 +57,9 @@ Product product = new ProductDao().getProductByNo(no);
 				<tbody>
 					<tr>
 						<th>상품이름</th>
-						<td colspan="3"><strong><%=product.getName() %></strong></td>
+						<td><b><%=product.getName() %></b></td>
+						<th>카테고리</th>
+						<td><%=product.getCategory().getName() %></td>
 					</tr>
 					<tr>
 						<th>상품번호</th>
@@ -80,21 +87,67 @@ Product product = new ProductDao().getProductByNo(no);
 					</tr>
 					<tr>
 						<th>상품설명</th>
-						<td colspan="4"><%=product.getDescription().replace("\n", "<br>") %></td>
+						<td style='white-space: break-spaces;' colspan="4"><%=product.getDescription() %></td>
 					</tr>
 				</tbody>
 			</table>
 			<div class="text-end">
-				<!-- 
-					현재: product/detail.jsp
-					
-					목록 -> list.jsp
-					삭제 -> delete.jsp
-				 -->
 				<a href="delete.jsp?no=<%=product.getNo() %>" class="btn btn-danger btn-sm">삭제</a>
-				<a href="" class="btn btn-warning btn-sm">수정</a>
+				<a href="modifyForm.jsp?no=<%=product.getNo() %>" class="btn btn-warning btn-sm">수정</a>
 				<a href="list.jsp" class="btn btn-primary btn-sm">목록</a>
 			</div>
+		</div>
+	</div>
+	<div class="row mb-3">
+		<div class="col-12">
+			<form class="border bg-light p-2" method="post" action="insertReview.jsp">
+				<input type="hidden" name="productNo" value="<%=product.getNo() %>" />
+				<div class="row">
+					<div class="col-11">
+						<textarea rows="2" class="form-control" name="content"></textarea>
+					</div>
+					<div class="col-1">
+						<button class="btn btn-outline-primary h-100">등록</button>
+					</div>
+		    	</div>
+			</form>
+		</div>
+	</div>
+	<div class="row mb-3">
+	<%
+	if ("id".equals(err)) {
+	%>
+		<div class="col-7">
+			<div class="alert alert-danger">
+				<strong>삭제 실패</strong> 자신의 글만 삭제할 수 있습니다.
+			</div>
+		</div>
+	<%
+	}
+	%>
+		<div class="col-12">
+		<%
+		for (Review review : reviewList) {
+		%>
+			<div class="border p-2 mb-2">
+				<div class="d-flex justify-content-between mb-1">
+					<span><%=review.getCustomer().getName() %></span><span class="text-muted"><%=review.getCreateDate() %></span>
+				</div>
+				<div style='white-space: break-spaces;'>
+					<%=review.getContent() %>
+					<%
+					if (review.getCustomer().getId().equals(loginId)) {
+					%>
+					<a href="deleteReview.jsp?no=<%=no %>&rno=<%=review.getNo() %>"
+					class="btn btn-link text-danger text-decoration-none float-end"><i class="bi bi-trash"></i></a>
+					<%
+					}
+					%>
+				</div>
+			</div>
+		<%
+		}
+		%>
 		</div>
 	</div>
 </div>

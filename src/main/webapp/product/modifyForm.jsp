@@ -1,3 +1,5 @@
+<%@page import="dao.ProductDao"%>
+<%@page import="vo.Product"%>
 <%@page import="vo.Category"%>
 <%@page import="java.util.List"%>
 <%@page import="dao.CategoryDao"%>
@@ -19,52 +21,58 @@
 <div class="container my-3">
 	<div class="row mb-3">
 		<div class="col-12">
-			<h1 class="border bg-light fs-4 p-2">신규 상품 등록</h1>
+			<h1 class="border bg-light fs-4 p-2">상품 정보 수정</h1>
 		</div>
 	</div>
 	<div class="row mb-3">
 		<div class="col-12">
-			<p>신규 상품 정보를 입력하세요.</p>
-			<form class="border bg-light p-3" method="post" action="insert.jsp">
+			<p>상품 정보를 확인하고, 수정하세요.</p>
+			<form class="border bg-light p-3" method="post" action="modify.jsp">
 				<div class="form-group mb-2">
 					<label class="form-label">카테고리</label>
 					<select class="form-select" name="catNo">
 					<%
+					int no = Integer.parseInt(request.getParameter("no"));
+					
+					// 상품정보 조회
+					Product product = new ProductDao().getProductByNo(no); 
+					int categoryNo = product.getCategory().getNo();
+					
 					// 모든 카테고리정보 조회하기
-					CategoryDao categoryDao = new CategoryDao();
-					List<Category> categories = categoryDao.getCategories();
+					List<Category> categories = new CategoryDao().getCategories();
 					
 					for (Category cat : categories) {
 					%>
-						<option value="<%=cat.getNo() %>"><%=cat.getName() %></option>
+						<option value="<%=cat.getNo() %>"<%=cat.getNo() == categoryNo ? " selected" : "" %>><%=cat.getName() %></option>
 					<%
 					}
 					%>
 					</select>
 				</div>
+				<input type="hidden" name="no" value="<%=no %>">
 				<div class="form-group mb-2">
 					<label class="form-label">상품이름</label>
-					<input type="text" class="form-control" name="name" required />
+					<input type="text" class="form-control" name="name" value="<%=product.getName() %>" required />
 				</div>
 				<div class="form-group mb-2">
 					<label class="form-label">제조회사</label>
-					<input type="text" class="form-control" name="maker" required />
-				</div>
-				<div class="form-group mb-2">
-					<label class="form-label">입고수량</label>
-					<input type="number" class="form-control" name="amount" />
+					<input type="text" class="form-control" name="maker" value="<%=product.getMaker() %>" required />
 				</div>
 				<div class="form-group mb-2">
 					<label class="form-label">상품가격</label>
-					<input type="number" class="form-control" name="price" />
+					<input type="number" class="form-control" name="price" value="<%=product.getPrice() %>" />
+				</div>
+				<div class="form-group mb-2">
+					<label class="form-label">상품할인가격</label>
+					<input type="number" class="form-control" name="discountPrice" value="<%=product.getDiscountPrice() %>" />
 				</div>
 				<div class="form-group mb-2">
 					<label class="form-label">상품 설명</label>
-					<textarea class="form-control" rows="5" name="description" required></textarea>
+					<textarea class="form-control" rows="5" name="description" required><%=product.getDescription() %></textarea>
 				</div>
 				<div class="text-end">
 					<button type="reset" class="btn btn-secondary btn-sm">취소</button>
-					<button type="submit" class="btn btn-primary btn-sm">등록</button>
+					<button type="submit" class="btn btn-primary btn-sm">수정</button>
 				</div>
 			</form>
 		</div>

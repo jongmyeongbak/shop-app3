@@ -1,3 +1,6 @@
+<%@page import="dao.CustomerDao"%>
+<%@page import="vo.Customer"%>
+<%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <!doctype html>
 <html lang="ko">
@@ -13,20 +16,9 @@
 </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-   <div class="container">
-      <ul class="navbar-nav me-auto">
-         <li class="nav-item"><a class="nav-link" href="/app3/home.jsp">홈</a></li>
-         <li class="nav-item"><a class="nav-link" href="/app3/product/list.jsp">상품관리</a></li>
-         <li class="nav-item"><a class="nav-link active" href="/app3/customer/list.jsp">고객 관리</a></li>
-         <li class="nav-item"><a class="nav-link disabled" href="">게시판 관리</a></li>
-      </ul>
-      <ul class="navbar-nav">
-         <li class="nav-item"><a class="nav-link disabled" href="">로그인</a></li>
-         <li class="nav-item"><a class="nav-link" href="/app3/customer/form.jsp">회원가입</a></li>
-      </ul>
-   </div>
-</nav>
+<jsp:include page="../nav.jsp">
+	<jsp:param value="고객" name="menu"/>
+</jsp:include>
 <div class="container my-3">
 	<div class="row mb-3">
 		<div class="col-12">
@@ -40,7 +32,7 @@
 			<table class="table table-sm">
 				<colgroup>
 					<col width="10%">
-					<col width="20">
+					<col width="20%">
 					<col width="20%">
 					<col width="20%">
 					<col width="15%">
@@ -57,38 +49,33 @@
 					</tr>
 				</thead>
 				<tbody>
+				<%
+				List<Customer> customerList = new CustomerDao().getCustomers();
+				for (Customer customer : customerList) {
+					String id = customer.getId();
+					String disabled = customer.getDisabled();
+				%>
 					<tr>
-						<td>hong</td>
-						<td><a href="detail.jsp?id=hong">홍길동</a></td>
-						<td>010-1111-1111</td>
-						<td>hong@gmail.com</td>
-						<td>No</td>
-						<td><a href="disable.jsp?id=hong" class="btn btn-danger btn-xs">탈퇴처리</a></td>
+						<td><%=id %></td>
+						<td><a href="detail.jsp?id=<%=id %>"><%=customer.getName() %></a></td>
+						<td><%=customer.getTel() %></td>
+						<td><%=customer.getEmail() %></td>
+						<td><%="No".equals(disabled) ? "<span class='badge text-bg-primary'>사용중</span>" : "<span class='badge text-bg-secondary'>탈퇴</span>" %></td>
+						<%
+						if ("No".equals(disabled)) {
+						%>
+						<td><a href="disable.jsp?id=<%=id %>" class="btn btn-outline-danger btn-xs">탈퇴처리</a></td>
+						<%
+						} else {
+						%>
+						<td><a href="enable.jsp?id=<%=id %>" class="btn btn-outline-success btn-xs">복구처리</a></td>
+						<%
+						}
+						%>
 					</tr>
-					<tr>
-						<td>hong</td>
-						<td><a href="detail.jsp?id=hong">홍길동</a></td>
-						<td>010-1111-1111</td>
-						<td>hong@gmail.com</td>
-						<td>No</td>
-						<td><a href="disable.jsp?id=hong" class="btn btn-danger btn-xs">탈퇴처리</a></td>
-					</tr>
-					<tr>
-						<td>hong</td>
-						<td><a href="detail.jsp?id=hong">홍길동</a></td>
-						<td>010-1111-1111</td>
-						<td>hong@gmail.com</td>
-						<td>Yes</td>
-						<td><a href="enable.jsp?id=hong" class="btn btn-success btn-xs disabled">복구처리</a></td>
-					</tr>
-					<tr>
-						<td>hong</td>
-						<td><a href="detail.jsp?id=hong">홍길동</a></td>
-						<td>010-1111-1111</td>
-						<td>hong@gmail.com</td>
-						<td>No</td>
-						<td><a href="disable.jsp?id=hong" class="btn btn-danger btn-xs">탈퇴처리</a></td>
-					</tr>
+				<%
+				}
+				%>
 				</tbody>
 			</table>
 		</div>
